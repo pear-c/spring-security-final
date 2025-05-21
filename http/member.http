@@ -3,3 +3,9 @@ POST localhost:8080/members
 Content-Type: text/csv
 
 kim,김철수,12345,26,member
+
+### 멤버 단건 조회
+GET localhost:8080/members/kim
+
+### 멤버 전체 조회
+GET localhost:8080/members

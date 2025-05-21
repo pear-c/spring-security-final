@@ -1,0 +1,25 @@
+package com.example.springsecurityfinal.model;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class Member {
+    private String id;
+    private String name;
+    private String password;
+    private Integer age;
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Role role;
+
+    public Member(String id, String name, String password, Integer age, Role role) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.age = age;
+        this.role = role;
+    }
+}

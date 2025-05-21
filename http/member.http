@@ -1,0 +1,10 @@
+POST localhost:8080/members
+Content-Type: application/json
+
+{
+  "id": "kim",
+  "name": "김철수",
+  "password": "12345",
+  "age": 26,
+  "role": "MEMBER"
+}

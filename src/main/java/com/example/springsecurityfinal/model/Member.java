@@ -22,4 +22,9 @@ public class Member {
         this.age = age;
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return id + "," + name + "," + password + "," + age + "," + role;
+    }
 }

@@ -1,10 +1,5 @@
+### 멤버 생성
 POST localhost:8080/members
-Content-Type: application/json
+Content-Type: text/csv
 
-{
-  "id": "kim",
-  "name": "김철수",
-  "password": "12345",
-  "age": 26,
-  "role": "MEMBER"
-}
+kim,김철수,12345,26,member

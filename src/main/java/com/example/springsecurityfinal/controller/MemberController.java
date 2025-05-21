@@ -3,6 +3,7 @@ package com.example.springsecurityfinal.controller;
 import com.example.springsecurityfinal.model.Member;
 import com.example.springsecurityfinal.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class MemberController {
     }
 
     @GetMapping("/members")
-    public ResponseEntity<List<Member>> getMembers() {
+    public ResponseEntity<List<Member>> getMembers(Pageable pageable) {
         List<Member> members = memberService.getMembers();
         return ResponseEntity.ok(members);
     }

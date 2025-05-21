@@ -1,5 +1,6 @@
 package com.example.springsecurityfinal.service;
 
+import com.example.springsecurityfinal.exception.MemberAlreadyExistsException;
 import com.example.springsecurityfinal.model.Member;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,9 @@ public class MemberService {
     private Map<String, Member> memberMap = new HashMap<>();
 
     public void createMember(Member member) {
+        if(memberMap.containsKey(member.getId())) {
+            throw new MemberAlreadyExistsException();
+        }
         memberMap.put(member.getId(), member);
     }
 }

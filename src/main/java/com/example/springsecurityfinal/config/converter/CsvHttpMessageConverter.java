@@ -1,7 +1,7 @@
 package com.example.springsecurityfinal.config.converter;
 
-import com.example.springsecurityfinal.model.Member;
-import com.example.springsecurityfinal.model.Role;
+import com.example.springsecurityfinal.domain.Member;
+import com.example.springsecurityfinal.domain.Role;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;

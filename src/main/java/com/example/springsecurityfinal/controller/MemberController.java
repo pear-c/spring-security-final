@@ -1,6 +1,6 @@
 package com.example.springsecurityfinal.controller;
 
-import com.example.springsecurityfinal.model.Member;
+import com.example.springsecurityfinal.domain.Member;
 import com.example.springsecurityfinal.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;

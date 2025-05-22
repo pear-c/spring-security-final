@@ -1,8 +1,8 @@
 package com.example.springsecurityfinal.service;
 
 import com.example.springsecurityfinal.exception.MemberAlreadyExistsException;
-import com.example.springsecurityfinal.model.Member;
-import com.example.springsecurityfinal.model.MemberEntity;
+import com.example.springsecurityfinal.domain.Member;
+import com.example.springsecurityfinal.domain.MemberEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

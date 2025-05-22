@@ -53,4 +53,9 @@ public class MemberService {
         }
         return members;
     }
+
+    public MemberEntity getMemberEntity(String userName) {
+        Object o = redisTemplate.opsForHash().get(HASH_NAME, userName);
+        return objectMapper.convertValue(o, MemberEntity.class);
+    }
 }

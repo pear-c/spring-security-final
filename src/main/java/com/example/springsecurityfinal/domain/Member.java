@@ -20,7 +20,7 @@ public class Member {
         this.name = name;
         this.password = password;
         this.age = age;
-        this.role = role;
+        this.role = Role.valueOf(role.toString().toUpperCase());
     }
 
     @Override

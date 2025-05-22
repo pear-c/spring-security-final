@@ -6,6 +6,7 @@ kim,이철수,12345,26,MEMBER
 
 ### 멤버 단건 조회
 GET localhost:8080/members/kim
+Accept: application/xml
 
 ### 멤버 전체 조회
 GET localhost:8080/members

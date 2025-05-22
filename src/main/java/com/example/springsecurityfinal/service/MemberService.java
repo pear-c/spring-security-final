@@ -37,7 +37,7 @@ public class MemberService {
         return new Member(
                 memberEntity.getId(),
                 memberEntity.getName(),
-                memberEntity.getPassword(),
+                memberEntity.getEncodedPassword(),
                 memberEntity.getAge(),
                 memberEntity.getRole()
         );

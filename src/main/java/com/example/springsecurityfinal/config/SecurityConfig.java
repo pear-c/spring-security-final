@@ -18,6 +18,7 @@ public class SecurityConfig {
                         .usernameParameter("id")
                         .passwordParameter("password")
                         .loginProcessingUrl("/auth/login/process")
+                        .defaultSuccessUrl("/")
         );
 
         http.authorizeHttpRequests(authorizeRequests ->
@@ -28,6 +29,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/members").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
+        );
+
+        http.exceptionHandling(exception ->
+                exception.accessDeniedPage("/403")
         );
 
         http.csrf(AbstractHttpConfigurer::disable);

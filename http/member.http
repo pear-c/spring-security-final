@@ -2,7 +2,7 @@
 POST localhost:8080/members
 Content-Type: text/csv
 
-kim,이철수,12345,26,MEMBER
+admin,이철수,admin,26,ADMIN
 
 ### 멤버 단건 조회
 GET localhost:8080/members/kim

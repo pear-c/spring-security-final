@@ -2,6 +2,7 @@ package com.example.springsecurityfinal.config;
 
 import com.example.springsecurityfinal.config.filter.UserAuthenticationFilter;
 import com.example.springsecurityfinal.config.handler.CustomAuthenticationFailureHandler;
+import com.example.springsecurityfinal.config.handler.CustomAuthenticationLogoutHandler;
 import com.example.springsecurityfinal.config.handler.CustomAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,8 +20,11 @@ public class SecurityConfig {
     private UserAuthenticationFilter userAuthenticationFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler, CustomAuthenticationFailureHandler customAuthenticationFailureHandler) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler, CustomAuthenticationFailureHandler customAuthenticationFailureHandler, CustomAuthenticationLogoutHandler customAuthenticationLogoutHandler) throws Exception {
+        // 필터 설정
+        http.addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
+        // 로그인 설정
         http.formLogin(formLogin ->
                 formLogin
                         .loginPage("/auth/login")
@@ -31,6 +35,14 @@ public class SecurityConfig {
                         .failureHandler(customAuthenticationFailureHandler)
         );
 
+        // 로그아웃 설정
+        http.logout(logout -> logout
+                .logoutUrl("/logout")
+                .addLogoutHandler(customAuthenticationLogoutHandler)
+                .logoutSuccessUrl("/auth/login")
+        );
+
+        // 권한 설정
         http.authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
                         .requestMatchers("/admin-page/**").hasRole("ADMIN")
@@ -41,13 +53,12 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
         );
 
+        // 예외 처리 핸들러
         http.exceptionHandling(exception ->
                 exception.accessDeniedPage("/403")
         );
 
         http.csrf(AbstractHttpConfigurer::disable);
-
-        http.addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

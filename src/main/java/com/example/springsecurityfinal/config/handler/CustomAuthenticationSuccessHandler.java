@@ -1,5 +1,6 @@
 package com.example.springsecurityfinal.config.handler;
 
+import com.example.springsecurityfinal.service.FailCounterService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    private final FailCounterService failCounterService;
     private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
@@ -29,6 +31,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         cookie.setPath("/");
         response.addCookie(cookie);
         redisTemplate.opsForValue().set(sessionId, authentication.getName());
+        failCounterService.resetFailCounter(authentication.getName());
 
         super.onAuthenticationSuccess(request, response, authentication);
     }

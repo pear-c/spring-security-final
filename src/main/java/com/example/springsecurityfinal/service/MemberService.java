@@ -16,7 +16,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class MemberService {
-    private final static String HASH_NAME = "Member:";
+    private static final String HASH_NAME = "Member:";
 
     private final RedisTemplate<String, Object> redisTemplate;
     private final ObjectMapper objectMapper;

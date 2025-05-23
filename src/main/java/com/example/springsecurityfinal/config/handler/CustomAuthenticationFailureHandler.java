@@ -21,15 +21,21 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
-    private final RedisTemplate<String, Object> redisTemplate;
     private final FailCounterService failCounterService;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         String id = request.getParameter("id");
-        Long failCount = failCounterService.increaseAndGetFailCount(id);
-        System.out.println(failCount);
 
-        response.sendRedirect("/auth/login");
+        failCounterService.increaseFailCount(id);
+        Long failCount = failCounterService.getFailCount(id);
+
+        if(failCount >= 5) {
+            System.out.println("로그인 5회 실패로 60초간 차단되었습니다.");
+        } else {
+            System.out.println("아이디 또는 비밀번호가 틀렸습니다.");
+        }
+
+        request.getRequestDispatcher("/auth/login").forward(request, response);
     }
 }

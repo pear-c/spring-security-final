@@ -1,5 +1,6 @@
 package com.example.springsecurityfinal.config.filter;
 
+import com.example.springsecurityfinal.domain.AuthUser;
 import com.example.springsecurityfinal.domain.MemberEntity;
 import com.example.springsecurityfinal.service.MemberService;
 import jakarta.servlet.FilterChain;
@@ -9,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -43,11 +45,8 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
 
             if(memberId != null) {
                 MemberEntity memberEntity = memberService.getMemberEntity(memberId);
-                // 권한 설정
-                List<GrantedAuthority> authorities = List.of(
-                        new SimpleGrantedAuthority("ROLE_" + memberEntity.getRole().toString().toUpperCase())
-                );
-                Authentication authentication = new UsernamePasswordAuthenticationToken(memberId, null, authorities);
+                AuthUser authUser = new AuthUser(memberEntity);
+                Authentication authentication = new UsernamePasswordAuthenticationToken(authUser, null, authUser.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }

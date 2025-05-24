@@ -1,6 +1,7 @@
 package com.example.springsecurityfinal.config.handler;
 
 import com.example.springsecurityfinal.service.impl.FailCounterService;
+import com.example.springsecurityfinal.service.impl.MessageSendService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import java.io.IOException;
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
     private final FailCounterService failCounterService;
+    private final MessageSendService messageSendService;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
@@ -25,7 +27,8 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         Long failCount = failCounterService.getFailCount(id);
 
         if(failCount >= 5) {
-            System.out.println("로그인 5회 실패로 60초간 차단되었습니다.");
+            messageSendService.sendBlockedMessage(id);
+            System.out.println("'" + id + "' 님이 로그인 5회 실패로 60초간 차단되었습니다.");
         } else {
             System.out.println("아이디 또는 비밀번호가 틀렸습니다.");
         }

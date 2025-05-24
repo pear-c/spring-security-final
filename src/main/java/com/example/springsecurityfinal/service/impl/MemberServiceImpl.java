@@ -5,9 +5,7 @@ import com.example.springsecurityfinal.domain.member.Member;
 import com.example.springsecurityfinal.domain.member.MemberEntity;
 import com.example.springsecurityfinal.repository.MemberRepository;
 import com.example.springsecurityfinal.service.MemberService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

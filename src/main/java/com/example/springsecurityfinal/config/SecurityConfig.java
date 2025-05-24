@@ -4,6 +4,7 @@ import com.example.springsecurityfinal.config.filter.UserAuthenticationFilter;
 import com.example.springsecurityfinal.config.handler.CustomAuthenticationFailureHandler;
 import com.example.springsecurityfinal.config.handler.CustomAuthenticationLogoutHandler;
 import com.example.springsecurityfinal.config.handler.CustomAuthenticationSuccessHandler;
+import com.example.springsecurityfinal.service.impl.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +21,7 @@ public class SecurityConfig {
     private UserAuthenticationFilter userAuthenticationFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler, CustomAuthenticationFailureHandler customAuthenticationFailureHandler, CustomAuthenticationLogoutHandler customAuthenticationLogoutHandler) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler, CustomAuthenticationFailureHandler customAuthenticationFailureHandler, CustomAuthenticationLogoutHandler customAuthenticationLogoutHandler, CustomOAuth2UserService customOAuth2UserService) throws Exception {
         // 필터 설정
         http.addFilterBefore(userAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -59,6 +60,14 @@ public class SecurityConfig {
         );
 
         http.csrf(AbstractHttpConfigurer::disable);
+
+        http.oauth2Login(oauth2Login -> oauth2Login
+                .userInfoEndpoint(userInfo -> userInfo
+                        .userService(customOAuth2UserService)
+                )
+                .loginPage("/auth/login")
+                .defaultSuccessUrl("/")
+        );
 
         return http.build();
     }

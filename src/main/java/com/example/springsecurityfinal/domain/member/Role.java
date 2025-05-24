@@ -1,4 +1,4 @@
-package com.example.springsecurityfinal.domain;
+package com.example.springsecurityfinal.domain.member;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 

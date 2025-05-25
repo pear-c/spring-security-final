@@ -31,7 +31,12 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String id = request.getParameter("id");
-        if(id != null && failCounterService.isBlocked(id)) {
+        if (id == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        if(failCounterService.isBlocked(id)) {
             String key = "Blocked:" + id;
             Long ttl = redisTemplate.getExpire(key, TimeUnit.SECONDS);
             System.out.println("로그인 시도 제한: " + ttl + "초 후 다시 시도해주세요.");
@@ -40,13 +45,15 @@ public class UserAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String sessionId = null;
-
         Cookie[] cookies = request.getCookies();
-        for(Cookie cookie : cookies) {
-            if(cookie.getName().equals("sessionId")) {
-                sessionId = cookie.getValue();
+        if(cookies != null) {
+            for(Cookie cookie : cookies) {
+                if(cookie.getName().equals("sessionId")) {
+                    sessionId = cookie.getValue();
+                }
             }
         }
+
 
         if(sessionId != null) {
             String memberId = (String) redisTemplate.opsForValue().get(sessionId);
